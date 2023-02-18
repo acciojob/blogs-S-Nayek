@@ -20,6 +20,7 @@ public class User{
     private List<Blog> blogList;
 
     public User() {
+
     }
 
     public User(String username, String password) {
