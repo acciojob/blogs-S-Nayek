@@ -16,18 +16,26 @@ import java.util.List;
 @Service
 public class BlogService {
     @Autowired
-    BlogRepository blogRepository1;
+    BlogRepository blogRepository1 ;
 
     @Autowired
     UserRepository userRepository1;
 
-    public Blog createAndReturnBlog(Integer userId, String title, String content) {
-        //create a blog at the current time
+    public Blog createAndReturnBlog(Integer userId, String title, String content) throws Exception {
+        if(!userRepository1.findById(userId).isPresent()){
+            throw new Exception();
+        }
+        User user = userRepository1.findById(userId).get();
+        Blog blog = new Blog(user,title,content);
+        blogRepository1.save(blog);
+        user.getBlogList().add(blog);
+        return blog;
+
 
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-
+        blogRepository1.deleteById(blogId);
     }
 }
